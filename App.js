@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>knu bus</Text>
+      <Text>knu bus app</Text>
       <StatusBar style="auto" />
     </View>
   );
