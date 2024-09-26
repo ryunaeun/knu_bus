@@ -9,6 +9,7 @@ import BusLine_2way from '../assets/img/BusLine_2way.png';
 import BusLine_1way from '../assets/img/BusLine_1way.png';
 import KNU_logoFlower from '../assets/img/KNU_logoFlower.png';
 import BusAlarmIcon from '../assets/img/bus_alarm.png';
+import BusMove_Icon from '../assets/img/BusMove_Icon.png';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -43,8 +44,8 @@ const  BusArrivalInfo = ({ route, navigation }) => {
   const handleAlarmIconPress = async () => {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "버스 도착 알림",
-        body: `${BusNumFirst}호차가 ${ArrivalMinuteFirst}분 후 도착합니다.`,
+        title: "버스 지연 알림",
+        body: `2호차가 지연되었습니다.`,
       },
       trigger: null, // 즉시 알림
     });
@@ -52,15 +53,15 @@ const  BusArrivalInfo = ({ route, navigation }) => {
 
   // Initialize variables
   const BusNumFirst = "1";
-  const ArrivalMinuteFirst = "5";
+  const ArrivalMinuteFirst = "2";
   const delayMinuteFirst = "0";
 
   const BusNumSecond = "2";
-  const ArrivalMinuteSecond = "3";
+  const ArrivalMinuteSecond = "8";
   const delayMinuteSecond = "1";
 
   const BusNumThird = "3";
-  const ArrivalMinuteThird = "10";
+  const ArrivalMinuteThird = "14";
   const delayMinuteThird = "2";
 
   // Determine which bus line image to display
@@ -72,7 +73,7 @@ const  BusArrivalInfo = ({ route, navigation }) => {
         <View style={styles.overlay} />
       </ImageBackground>
       <Image source={LineDivider_Red} style={{ width: 360, height: 2, position: 'absolute', top: 60 }} />
-
+      <Image source={BusMove_Icon} style={styles.busMoveIcon} />
       {/* Bus info section */}
       <View style={styles.infoContainer}>
         {BusNumFirst !== "0" ? (
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
   busLineContainer: {
     flexDirection: 'row',
     width: 360,
-    height: 400,
+    height: 460,
   },
   busLineImage: {
     width: 50,
@@ -353,7 +354,15 @@ const styles = StyleSheet.create({
   Alarmicon: {
     width: 50,
     height: 50,
-  }
+  },
+  busMoveIcon: {
+    position: 'absolute', // absolute로 위치 고정
+    top: 390, // 원하는 Y축 위치 (수정 가능)
+    left: 12, // 원하는 X축 위치 (수정 가능)
+    width: 60, // 이미지 너비 조정
+    height: 60, // 이미지 높이 조정
+    zIndex: 10, // 다른 UI 요소 위에 나타나도록 설정
+  },
 });
 
 export default BusArrivalInfo;

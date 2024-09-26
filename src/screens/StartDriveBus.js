@@ -15,30 +15,18 @@ const StartDriveBus = ({ navigation, route }) => {
     KNU_TRUTH: require("../assets/font/KNU TRUTH.ttf"),
   });
   const [isDriving, setIsDriving] = useState(false); // 운행 상태 관리
-  const [mqttClient, setMqttClient] = useState(null);
+
   if (!fontsLoaded) return null;
-  
-  const startOrStopDriving = async() => {
+
+  const startOrStopDriving = () => {
     if (!isDriving) {
-      createMqttClient()
-      .then((client) => {
-        setMqttClient(client);
-      })
-      .catch((error) => {
-        console.error('Failed to initialize MQTT client:', error);
-      });
-      initializeTask();
-      await startLocationTracking();
-      setIsDriving(true);
+      Alert.alert('안전운전 하세요!');
     } else {
-      if(mqttClient){
-        mqttClient.disconnected();
-        setMqttClient(null);
-      }
-      await stopLocationTracking();
-      setIsDriving(false);
-      navigation.navigate('Home');
+      Alert.alert('수고하셨습니다!', '', [
+        { text: '확인', onPress: () => navigation.navigate('Home') }
+      ]);
     }
+    setIsDriving(!isDriving);  // 상태를 반전시킴
   };
 
   const accidentOccurred = () => {
@@ -66,7 +54,7 @@ const StartDriveBus = ({ navigation, route }) => {
       <Text style={styles.infoText}>{line}호선 {busNumber}회차</Text>
       
       <View style={styles.spacer2} />
-      <Image source={LineDivider_Red} style={{ width: 360, height: 2, marginTop: 10 }} />
+      <Image source={LineDivider_Red} style={{ width: 360, height: 2 }} />
 
       <TouchableOpacity style={styles.button2} onPress={accidentOccurred}>
         <Text style={styles.buttonText2}>🔔 지연 알림</Text>
@@ -118,8 +106,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
-    paddingVertical: 25,
-    paddingHorizontal: 35,
+    paddingVertical: 30,
+    paddingHorizontal: 30,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#797977',
@@ -127,22 +115,22 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#797977',
-    fontSize: 32,
-    fontWeight: '500',
+    fontSize: 40,
+    fontWeight: 'normal',
   },
   button2: {
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
-    paddingVertical: 25,
-    paddingHorizontal: 35,
+    paddingVertical: 30,
+    paddingHorizontal: 30,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#bf7c26',
-    marginTop: 40,
+    marginTop: 20,
   },
   buttonText2: {
     color: '#bf7c26',
-    fontSize: 32,
-    fontWeight: '500',
+    fontSize: 40,
+    fontWeight: 'normal',
   },
   spacer: {
     height: 50,
